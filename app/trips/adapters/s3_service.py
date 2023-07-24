@@ -45,7 +45,7 @@ class S3Service:
 
         return None
 
-    def update_image_urls(self, input_data, get_image):
+    def update_image_urls(self, input_data, get_image, get_images_from_serpapi):
         day_plans = input_data["trip"]
 
         for day_plan_id, day_plan in enumerate(day_plans):
@@ -55,22 +55,19 @@ class S3Service:
                 place_name = activity["place_name"]
                 photo_ref = activity["photo_ref"]
                 if photo_ref != "":
-                    # if self.check_file_exists(city=city, photo_ref=photo_ref):
-                    #     image_url = "https://s3-{0}.amazonaws.com/{1}/{2}".format(
-                    #         self.bucket_location["LocationConstraint"],
-                    #         self.bucket_name,
-                    #         f"places/{city}/{photo_ref}.png",
-                    #     )
-                    # else:
                     image_url = self.upload_image(
                         city=city, place_name=place_name, image=get_image(photo_ref)
                     )
                     input_data["trip"][day_plan_id]["activities"][activity_id][
                         "image_url"
-                    ] = image_url
+                    ] = [image_url]
                 else:
                     input_data["trip"][day_plan_id]["activities"][activity_id][
                         "image_url"
-                    ] = ""
+                    ] = get_images_from_serpapi(
+                        city=city,
+                        title=place_name,
+                        awss3_upload_image=self.upload_image,
+                    )
 
         return input_data

@@ -13,9 +13,7 @@ class AuthRepository:
 
     def create_user(self, user: dict):
         payload = {
-            "full_name": user["full_name"],
             "email": user["email"],
-            "avatar_url": "",
             "password": hash_password(user["password"]),
             "created_at": datetime.utcnow(),
         }
@@ -61,16 +59,3 @@ class AuthRepository:
     def delete_user(self, user_id):
         self.database["users"].delete({"_id": ObjectId(user_id)})
 
-    def upload_avatar(self, user_id: str, avatar_url: str):
-        self.database["users"].update_one(
-            {"_id": ObjectId(user_id)}, {"$set": {"avatar_url": avatar_url}}
-        )
-
-    def delete_avatar(self, user_id: str):
-        user = self.database["users"].find_one({"_id": ObjectId(user_id)})
-        if user["avatar_url"]:
-            self.database["users"].update_one(
-                {"_id": ObjectId(user_id)}, {"$set": {"avatar_url": ""}}
-            )
-        else:
-            raise HTTPException(status_code=404, detail="No avatar image to delete")

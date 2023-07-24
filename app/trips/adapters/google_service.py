@@ -1,4 +1,5 @@
 import requests
+from serpapi import GoogleSearch
 from urllib.parse import urlsplit, parse_qsl
 import json
 import os
@@ -8,6 +9,7 @@ class GoogleService:
     def __init__(self):
         self.gplaces_api_key = os.environ.get("GPLACES_API_KEY")
         self.places_data_path = "./data/places_data.json"
+        self.serp_api_key = os.environ.get("SERPAPI_API_KEY")
 
     def update_photo_references(self, input_data):
         day_plans = input_data["trip"]
@@ -76,10 +78,7 @@ class GoogleService:
                     if not isLocationExist:
                         input_data["trip"][day_id]["activities"][activity_id][
                             "coordinates"
-                        ] = {
-                            "lat": 48.0196,
-                            "lng": 66.9237
-                        }
+                        ] = {"lat": 48.0196, "lng": 66.9237}
                     if not isRatingExist:
                         input_data["trip"][day_id]["activities"][activity_id][
                             "rating"
@@ -105,3 +104,29 @@ class GoogleService:
             return response.content
         else:
             return None
+
+    def get_images_from_serpapi(self, city: str, title: str, awss3_upload_image):
+        params = {
+            "q": title,
+            "engine": "google_images",
+            "ijn": "0",
+            "api_key": self.serp_api_key,
+        }
+
+        search = GoogleSearch(params)
+        results = search.get_dict()
+        images_results = results["images_results"]
+        url_list = []
+        for i in range(5):
+            image_data = images_results[i]
+            image_url = image_data["original"]
+            try:
+                response = requests.get(image_url)
+                image_data = response.content
+                image_s3_url = awss3_upload_image(
+                    city=city, image=image_data, place_name=f"{title}_{i}"
+                )
+                url_list.append(image_s3_url)
+            except requests.exceptions.RequestException as e:
+                print(f"Error downloading image: {e}")
+        return url_list
