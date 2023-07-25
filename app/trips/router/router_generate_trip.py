@@ -34,6 +34,7 @@ def generate_trip(
     jwt_data: JWTData = Depends(parse_jwt_user_data),
     svc: Service = Depends(get_service),
 ) -> dict[str, str]:
+    
     trip_title = input.dict()["trip_title"]
     cities = input.dict()["cities"]
     num_days = str(input.dict()["num_days"])
@@ -51,9 +52,7 @@ def generate_trip(
     resp_json = svc.google_service.update_photo_references(input_data=resp_json)
 
     resp_json = svc.s3_service.update_image_urls(
-        input_data=resp_json,
-        get_image=svc.google_service.get_image,
-        get_images_from_serpapi=svc.google_service.get_images_from_serpapi,
+        input_data=resp_json, get_image=svc.google_service.get_image, get_images_from_serpapi=svc.google_service.get_images_from_serpapi
     )
     trip_id = svc.repository.create_trip(
         trip_title=trip_title,

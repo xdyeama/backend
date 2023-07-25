@@ -8,16 +8,13 @@ from app.auth.adapters.jwt_service import JWTData
 from app.auth.router.dependencies import parse_jwt_user_data
 
 
-
-
-
 class Location(AppModel):
     place_name: str
     city: str
     description: str
     coordinates: dict | None
     website: str
-    image_url: str
+    image_url: List[str]
 
 
 class TripModel(AppModel):

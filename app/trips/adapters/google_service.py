@@ -29,7 +29,7 @@ class GoogleService:
                 activities = day["activities"]
                 for activity_id, activity in enumerate(activities):
                     isPhotoRefExist = False
-                    isLocationExist = False
+
                     isRatingExist = False
                     isTypesExist = False
                     place_name = activity["place_name"]
@@ -40,13 +40,6 @@ class GoogleService:
                             for place in places:
                                 for place_elem in city[place]:
                                     if place_elem["name"] == place_name:
-                                        input_data["trip"][day_id]["activities"][
-                                            activity_id
-                                        ]["coordinates"] = place_elem["geometry"][
-                                            "location"
-                                        ]
-                                        isLocationExist = True
-
                                         input_data["trip"][day_id]["activities"][
                                             activity_id
                                         ]["rating"] = place_elem["rating"]
@@ -75,10 +68,6 @@ class GoogleService:
                         input_data["trip"][day_id]["activities"][activity_id][
                             "photo_ref"
                         ] = ""
-                    if not isLocationExist:
-                        input_data["trip"][day_id]["activities"][activity_id][
-                            "coordinates"
-                        ] = {"lat": 48.0196, "lng": 66.9237}
                     if not isRatingExist:
                         input_data["trip"][day_id]["activities"][activity_id][
                             "rating"
@@ -92,7 +81,6 @@ class GoogleService:
                         ] = []
 
                     isPhotoRefExist = False
-                    isLocationExist = False
                     isRatingExist = False
                     isTypesExist = False
             return input_data
@@ -122,11 +110,14 @@ class GoogleService:
             image_url = image_data["original"]
             try:
                 response = requests.get(image_url)
-                image_data = response.content
-                image_s3_url = awss3_upload_image(
-                    city=city, image=image_data, place_name=f"{title}_{i}"
-                )
-                url_list.append(image_s3_url)
+                if response.status_code == 200:
+                    image_data = response.content
+                    image_s3_url = awss3_upload_image(
+                        city=city, image=image_data, place_name=f"{title}_{i}"
+                    )
+                    url_list.append(image_s3_url)
+                else:
+                    print("photo was damaged")
             except requests.exceptions.RequestException as e:
                 print(f"Error downloading image: {e}")
         return url_list
