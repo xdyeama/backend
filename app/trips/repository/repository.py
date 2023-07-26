@@ -48,7 +48,7 @@ class TripsRepository:
                     location = {
                         "place_name": activity["place_name"],
                         "city": city,
-                        "description": activity["description"],
+                        "description": activity["place_description"],
                         "coordinates": activity["coordinates"],
                         "website": activity["website"],
                         "image_url": activity["image_url"],

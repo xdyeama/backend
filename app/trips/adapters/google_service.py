@@ -74,7 +74,7 @@ class GoogleService:
                         ] = 0
                         input_data["trip"][day_id]["activities"][activity_id][
                             "rating_count"
-                        ] = 0
+                        ] = 0.0
                     if not isTypesExist:
                         input_data["trip"][day_id]["activities"][activity_id][
                             "activity_types"
