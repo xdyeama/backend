@@ -2,7 +2,7 @@ from typing import Any
 
 from pydantic import BaseSettings
 from pymongo import MongoClient
-from dotenv import dotenv_values
+
 
 
 class Config(BaseSettings):
@@ -15,7 +15,6 @@ class Config(BaseSettings):
     MONGOUSER: str = "root"
     MONGOPASSWORD: str = "password"
     MONGODATABASE: str = "fastapi"
-    HERE_API_KEY: str = dotenv_values("../.env").get("HERE_API_KEY")
 
 
 # environmental variables
