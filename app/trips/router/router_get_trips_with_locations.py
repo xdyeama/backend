@@ -13,7 +13,7 @@ class Location(AppModel):
     city: str
     description: str
     coordinates: dict | None
-    website: str
+    website: str | None
     image_url: List[str]
 
 

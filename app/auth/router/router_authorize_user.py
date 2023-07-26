@@ -30,6 +30,7 @@ def authorize_user(
     if not user:
         raise InvalidCredentialsException
 
+    # if not check_password(input.password, user["password"]):
     if not check_password(input.dict()["password"], user["password"]):
         raise InvalidCredentialsException
 
