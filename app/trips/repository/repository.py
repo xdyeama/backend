@@ -13,8 +13,7 @@ class TripsRepository:
         trip_title: str,
         user_id: str,
         trip_tags: List,
-        start_date: str,
-        end_date: str,
+        num_days: int,
         input: List,
     ):
         trip = {
@@ -22,7 +21,6 @@ class TripsRepository:
             "user_id": ObjectId(user_id),
             "trip_tags": trip_tags,
             "num_days": num_days,
-            "end_date": end_date,
             "trip": input,
         }
         trip_id = self.database.trips.insert_one(trip).inserted_id
