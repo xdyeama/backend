@@ -21,7 +21,7 @@ class TripsRepository:
             "trip_title": trip_title,
             "user_id": ObjectId(user_id),
             "trip_tags": trip_tags,
-            "start_date": start_date,
+            "num_days": num_days,
             "end_date": end_date,
             "trip": input,
         }

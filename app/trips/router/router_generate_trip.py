@@ -14,9 +14,7 @@ import json
 class GenerateTripRequest(AppModel):
     trip_title: str
     cities: str
-    start_date: str
-    end_date: str
-    num_days: int
+    num_days: str
     travel_style: str
 
 
@@ -39,8 +37,6 @@ def generate_trip(
     cities = input.dict()["cities"]
     num_days = str(input.dict()["num_days"])
     travel_style = input.dict()["travel_style"]
-    start_date = input.dict()["start_date"]
-    end_date = input.dict()["end_date"]
     tags = travel_style.split(", ")
 
     response = svc.openai_service.generate_initial_plan(
@@ -57,9 +53,8 @@ def generate_trip(
     trip_id = svc.repository.create_trip(
         trip_title=trip_title,
         user_id=jwt_data.user_id,
+        num_days=num_days,
         trip_tags=tags,
-        start_date=start_date,
-        end_date=end_date,
         input=resp_json["trip"],
     )
 
