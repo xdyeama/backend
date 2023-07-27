@@ -15,8 +15,7 @@ class Trip(AppModel):
     trip_title: str
     user_id: str
     trip_tags: List[str]
-    start_date: str
-    end_date: str
+    num_days: int
     trips: List[Dict]
 
 
@@ -37,8 +36,7 @@ def get_trips(
                 trip_title=trip["trip_title"],
                 user_id=str(trip["user_id"]),
                 trip_tags=trip["trip_tags"],
-                start_date=trip["start_date"],
-                end_date=trip["end_date"],
+                num_days=trip["num_days"],
                 trips=trip["trip"],
             )
             for trip in response
