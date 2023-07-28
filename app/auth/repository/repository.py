@@ -1,5 +1,5 @@
 from datetime import datetime
-from fastapi import HTTPException
+from fastapi import HTTPException, Response
 
 from bson.objectid import ObjectId
 from pymongo.database import Database
@@ -59,6 +59,7 @@ class AuthRepository:
     def delete_user(self, user_id):
         self.database["users"].delete({"_id": ObjectId(user_id)})
 
+
 from datetime import datetime
 from typing import Optional
 
@@ -73,13 +74,23 @@ class AuthRepository:
         self.database = database
 
     def create_user(self, user: dict):
-        payload = {
-            "email": user["email"],
-            "password": hash_password(user["password"]),
-            "created_at": datetime.utcnow(),
-        }
+        user = self.database["users"].find_one(
+            {
+                "email": user["email"],
+            }
+        )
+        if user is not None:
+            payload = {
+                "email": user["email"],
+                "password": hash_password(user["password"]),
+                "created_at": datetime.utcnow(),
+            }
 
-        self.database["users"].insert_one(payload)
+            self.database["users"].insert_one(payload)
+        else:
+            return Response(
+                status_code=404, detail="User with such email already exists"
+            )
 
     def get_user_by_id(self, user_id: str) -> Optional[dict]:
         user = self.database["users"].find_one(
@@ -96,3 +107,6 @@ class AuthRepository:
             }
         )
         return user
+
+    def change_password(self, email: str, new_password: str):
+        self.database["users"].update_one({"email": email}, {"password": new_password})

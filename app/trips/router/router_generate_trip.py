@@ -14,7 +14,7 @@ import json
 class GenerateTripRequest(AppModel):
     trip_title: str
     cities: str
-    num_days: str
+    num_days: int
     travel_style: str
 
 
@@ -35,12 +35,12 @@ def generate_trip(
     
     trip_title = input.dict()["trip_title"]
     cities = input.dict()["cities"]
-    num_days = str(input.dict()["num_days"])
+    num_days = input.dict()["num_days"]
     travel_style = input.dict()["travel_style"]
     tags = travel_style.split(", ")
 
     response = svc.openai_service.generate_initial_plan(
-        cities=cities, num_days=num_days, travel_style=travel_style
+        cities=cities, num_days=str(num_days), travel_style=travel_style
     )
 
     resp_json = json.loads(response[: len(response) // 2])
