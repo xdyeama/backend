@@ -17,7 +17,7 @@ class AuthRepository:
                 "email": user["email"],
             }
         )
-        if user is not None:
+        if user is None:
             payload = {
                 "email": user["email"],
                 "password": hash_password(user["password"]),
@@ -25,10 +25,6 @@ class AuthRepository:
             }
 
             self.database["users"].insert_one(payload)
-        else:
-            return Response(
-                status_code=404
-            )
 
     def get_user_by_id(self, user_id: str) -> dict | None:
         user = self.database["users"].find_one(
