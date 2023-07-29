@@ -70,6 +70,6 @@ def reset_password(
     if user is not None:
         svc.repository.change_password(email=email, new_password=new_password)
         send_reset_password_email(email, new_password)
-        return resetPasswordResponse(message="Password reset email sent.")
+        return {"message": "Password reset email sent."}
     else:
-        resetPasswordResponse(message="User with such email does not exist.")
+        return {"message": "User with such email does not exist."}
