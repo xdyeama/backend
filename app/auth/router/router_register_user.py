@@ -27,7 +27,7 @@ def register_user(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Email is already taken.",
         )
-
-    svc.repository.create_user(user=input.dict())
+    print(input)
+    svc.repository.create_user(email=input.email, password=input.password)
 
     return RegisterUserResponse(email=input.email)

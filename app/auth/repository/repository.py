@@ -11,16 +11,11 @@ class AuthRepository:
     def __init__(self, database: Database):
         self.database = database
 
-    def create_user(self, user: dict):
-        user = self.database["users"].find_one(
-            {
-                "email": user["email"],
-            }
-        )
-        if user is None:
+    def create_user(self, email: str, password: str):
+
             payload = {
-                "email": user["email"],
-                "password": hash_password(user["password"]),
+                "email": email,
+                "password": hash_password(password),
                 "created_at": datetime.utcnow(),
             }
 
