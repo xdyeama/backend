@@ -16,5 +16,5 @@ def delete_user(
     svc.repository.delete_user(user_id=jwt_data.user_id)
     trips = svc.repository.get_trips(user_id=jwt_data.user_id)
     for trip in trips:
-        trips_svc.repository.delete_trip(user_id=jwt_data.user_id, trip_id=trip["_id"])
+        trips_svc.repository.delete_trip(user_id=jwt_data.user_id, trip_id=trip._id)
     return Response(status_code=200)
