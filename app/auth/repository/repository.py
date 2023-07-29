@@ -58,6 +58,6 @@ class AuthRepository:
         )
 
     def delete_user(self, user_id):
-        self.database["users"].delete({"_id": ObjectId(user_id)})
+        self.database["users"].delete_one({"_id": ObjectId(user_id)})
 
 

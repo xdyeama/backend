@@ -13,8 +13,8 @@ def delete_user(
     svc: Service = Depends(get_service),
     trips_svc: TripsService = Depends(get_trips_service)
 ):
-    # trips = svc.repository.get_trips(user_id=jwt_data.user_id)
+    trips = svc.repository.get_trips(user_id=jwt_data.user_id)
     svc.repository.delete_user(user_id=jwt_data.user_id)
-    # for trip in trips:
-        # trips_svc.repository.delete_trip(user_id=jwt_data.user_id, trip_id=trip._id)
+    for trip in trips:
+        trips_svc.repository.delete_trip(user_id=jwt_data.user_id, trip_id=trip._id)
     return Response(status_code=200)
