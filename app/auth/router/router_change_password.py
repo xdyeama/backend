@@ -17,5 +17,5 @@ def change_password(
     svc: Service = Depends(get_service),
 ) -> str:
     new_password = input.dict()["new_password"]
-    svc.repository.change_password(user_id=jwt_data.user_id, new_password=new_password)
+    svc.repository.change_password(user_id=jwt_data.user_id, password=new_password)
     return Response(status_code=200)
