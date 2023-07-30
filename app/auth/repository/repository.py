@@ -57,6 +57,14 @@ class AuthRepository:
             {"$set": {"password": hash_password(password)}},
         )
 
+    def reset_password(self, email: str, new_password: str):
+        user = self.database["users"].find_one({"email": email})
+        if user is not None:
+            self.database["users"].update_one(
+                {"email": email},
+                {"$set": {"password": hash_password(new_password)}},
+            )
+
     def delete_user(self, user_id):
         self.database["users"].delete_one({"_id": ObjectId(user_id)})
 

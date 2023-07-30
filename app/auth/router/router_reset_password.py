@@ -68,7 +68,7 @@ def reset_password(
     new_password = generate_random_password()
     user = svc.repository.get_user_by_email(email=email)
     if user is not None:
-        svc.repository.change_password(email=email, new_password=new_password)
+        svc.repository.reset_password(email=email, new_password=new_password)
         send_reset_password_email(email, new_password)
         return {"message": "Password reset email sent."}
     else:
