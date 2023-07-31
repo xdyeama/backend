@@ -23,8 +23,7 @@ class TripsRepository:
             "num_days": num_days,
             "trip": input,
         }
-        trip_id = self.database.trips.insert_one(trip).inserted_id
-        return trip_id
+        self.database.trips.insert_one(trip)
 
     def get_trips(self, user_id: str) -> dict | None:
         does_trips_exist = self.database.trips.find({"user_id": ObjectId(user_id)})

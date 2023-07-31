@@ -19,6 +19,7 @@ class GenerateTripRequest(AppModel):
 
 
 
+
 @router.post(
     "/generate",
     status_code=status.HTTP_201_CREATED,
@@ -41,17 +42,4 @@ def generate_trip(
 
     resp_json = json.loads(response[: len(response) // 2])
 
-    resp_json = svc.google_service.update_photo_references(input_data=resp_json)
-
-    resp_json = svc.s3_service.update_image_urls(
-        input_data=resp_json, get_image=svc.google_service.get_image, get_images_from_serpapi=svc.google_service.get_images_from_serpapi
-    )
-    svc.repository.create_trip(
-        trip_title=trip_title,
-        user_id=jwt_data.user_id,
-        num_days=num_days,
-        trip_tags=tags,
-        input=resp_json["trip"],
-    )
-
-    return Response(status_code=201)
+    return Response(status_code=200)
