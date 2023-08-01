@@ -1,5 +1,5 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from tasks import scrape_news
+from .tasks import scrape_news
 
 
 scheduler = BackgroundScheduler()
