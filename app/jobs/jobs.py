@@ -4,6 +4,5 @@ from .tasks import scrape_news
 
 scheduler = BackgroundScheduler()
 
-scheduler.add_job(scrape_news, trigger="cron", hour=15, minute=5)
-
-
+scheduler.add_job(scrape_news, "cron", hour=19, minute=54)
+# scheduler.add_job(scrape_news, "interval", hours=1)

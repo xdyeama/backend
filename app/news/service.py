@@ -1,7 +1,6 @@
 from app.config import database
-from pydantic import BaseSettings
 
-from app.news.repository import NewsRepository
+from app.news.repository.repository import NewsRepository
 
 
 class Service:

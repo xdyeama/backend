@@ -1,7 +1,5 @@
-from bson.objectid import ObjectId
 from pymongo.database import Database
 from typing import List, Any
-from fastapi import HTTPException
 
 
 class NewsRepository:
@@ -9,7 +7,10 @@ class NewsRepository:
         self.database = database
 
     def get_news(self) -> List[Any] | None:
-        news = self.database.news.find()
+        news = self.database["news"].find()
         return news
+    
+    def insert_news(self, news: dict):
+        self.database["news"].insert_one(news)
 
     
