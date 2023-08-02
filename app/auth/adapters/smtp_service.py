@@ -7,8 +7,8 @@ import smtplib
 class SMTPService:
     def __init__(self):
         self.smtp_server = "smtp.gmail.com"
-        self.email_sender = os.environ.get("EMAIL_SENDER1")
-        self.email_password = os.environ.get("EMAIL_PASS1")
+        self.email_sender = os.environ.get("EMAIL_SENDER")
+        self.email_password = os.environ.get("EMAIL_PASS")
         self.subject = "New password request from {email}"
         self.body = """You have requested new password to login into Sayahat.AI app. 
         Your new password for the email {email} is {new_password}"""
