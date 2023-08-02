@@ -4,6 +4,7 @@ import requests
 
 
 def scrape_news(database=database):
+    database.drop_collection("news")
     print("job started")
     url = "https://astanatimes.com/"
 
