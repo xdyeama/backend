@@ -26,7 +26,7 @@ class GetNewsResponse(AppModel):
 def get_news(
     # jwt_data: JWTData = Depends(parse_jwt_user_data),
     svc: Service = Depends(get_service),
-) -> dict[str, list]:
+):
     news_list = svc.repository.get_news()
 
     return GetNewsResponse(
