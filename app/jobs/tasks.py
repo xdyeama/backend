@@ -48,7 +48,7 @@ def scrape_news(database=database):
                 "url": news_url,
                 "title": title,
                 "author": author,
-                "published_data": date_string,
+                "published_date": date_string,
                 "text_list": text_list,
                 "image_url": img_url,
             }

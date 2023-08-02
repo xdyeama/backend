@@ -14,7 +14,7 @@ class NewsModel(AppModel):
     url: str
     title: str
     author: str
-    published_data: str
+    published_date: str
     text_list: List[str]
     image_url: str
 
@@ -37,7 +37,7 @@ def get_news(
                 url=news["url"],
                 title=news["title"],
                 author=news["author"],
-                published_data=news["published_data"],
+                published_date=news["published_date"],
                 text_list=news["text_list"],
                 image_url=news["image_url"],
             )
