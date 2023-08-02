@@ -7,7 +7,7 @@ class NewsRepository:
         self.database = database
 
     def get_news(self) -> List[Any] | None:
-        news = self.database["news"].find()
+        news = self.database.news.find()
         return news
     
     def insert_news(self, news: dict):

@@ -2,27 +2,44 @@ from fastapi import Depends, Response
 
 from app.utils import AppModel
 
-from typing import List, Any, Optional
+from typing import List, Any, Optional, Field
 
 from ..service import Service, get_service
 from . import router
 
 
-class GetNewsResponse(AppModel):
-    news: Any
- 
+class NewsModel(AppModel):
+    id: Any = Field(alias="_id")
+    url: str
+    title: str
+    author: str
+    published_data: str
+    text_list: List[str]
+    image_url: str
 
-@router.get(
-    "/",
-    status_code=200,
-    response_model=GetNewsResponse
-)
+
+class GetNewsResponse(AppModel):
+    news: List[NewsModel]
+
+
+@router.get("/", status_code=200, response_model=GetNewsResponse)
 def get_news(
     # jwt_data: JWTData = Depends(parse_jwt_user_data),
     svc: Service = Depends(get_service),
 ) -> dict[str, list]:
-    
     news_list = svc.repository.get_news()
-    print(news_list)
-    return GetNewsResponse(news=news_list)
-    # return Response(status_code=200)
+
+    return GetNewsResponse(
+        news=[
+            NewsModel(
+                id=news["_id"],
+                url=news["url"],
+                title=news["title"],
+                author=news["author"],
+                published_data=news["published_data"],
+                text_list=news["text_list"],
+                image_url=news["image_url"],
+            )
+            for news in news_list
+        ]
+    )
