@@ -1,8 +1,9 @@
 from fastapi import Depends, Response
 
 from app.utils import AppModel
+from pydantic import Field
 
-from typing import List, Any, Optional, Field
+from typing import List, Any
 
 from ..service import Service, get_service
 from . import router
@@ -26,7 +27,7 @@ class GetNewsResponse(AppModel):
 def get_news(
     # jwt_data: JWTData = Depends(parse_jwt_user_data),
     svc: Service = Depends(get_service),
-):
+) -> dict[str, list]:
     news_list = svc.repository.get_news()
 
     return GetNewsResponse(

@@ -6,7 +6,7 @@ class NewsRepository:
     def __init__(self, database: Database):
         self.database = database
 
-    def get_news(self):
+    def get_news(self) -> List[Any] | None:
         news = self.database.news.find()
         return news
     
