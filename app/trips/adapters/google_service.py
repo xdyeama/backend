@@ -95,7 +95,7 @@ class GoogleService:
 
     def get_images_from_serpapi(self, city: str, title: str, awss3_upload_image):
         params = {
-            "q": title,
+            "q": title + " " + city,
             "engine": "google_images",
             "ijn": "0",
             "api_key": self.serp_api_key,
